@@ -7,7 +7,7 @@ function Signup() {
     const [name,setName] = useState("")
     const [email,setEmail] = useState("")
     const [password,setPassword] = useState("")
-    const [currentUser,setCurrentUser] = useContext(SessionContext)
+    const {currentUser,setCurrentUser} = useContext(SessionContext)
 
     const signup = async()=>{
         const user =await authRepository.signup(name,email,password)

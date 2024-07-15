@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SessionContext } from "../SessionProvider";
 import { Navigate } from "react-router-dom";
 import { SideMenu } from "../components/SideMenu";
@@ -7,11 +7,19 @@ import { postRepository } from "../repositories/post";
 function Home() {
     const [content,setContent] = useState("")
     const {currentUser} = useContext(SessionContext);
+    const [posts,setPosts] = useState([])
 
     const createPost = async () =>{
         const post = await postRepository.create(content,currentUser.id)
         console.log(post)
         setContent("")
+    }
+
+    useEffect(()=>{fetchPosts()},[])
+    
+    const fetchPosts = async () =>{
+        const posts = await postRepository.find()
+        setPosts(posts)
     }
 
     if (currentUser == null )return <Navigate replace to="/signin" />
